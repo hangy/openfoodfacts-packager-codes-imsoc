@@ -1,7 +1,9 @@
 use futures::StreamExt;
 use geocoding::{Forward, Openstreetmap, Point};
 use serde::*;
-use std::{collections::HashMap, io, thread, time};
+use std::fs::File;
+use std::io::prelude::*;
+use std::{collections::HashMap, thread, time};
 use tokio::*;
 use urlencoding::encode;
 
@@ -132,7 +134,8 @@ async fn fetch_establishments_for_country_and_section_page(
 fn write_packager_codes_csv(
     packager_codes: Vec<PackagerCode>,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let mut wtr = csv::Writer::from_writer(io::stdout());
+    let data_file = File::create("data.csv").expect("creation failed");
+    let mut wtr = csv::Writer::from_writer(data_file);
     for c in packager_codes {
         wtr.serialize(c)?;
     }
