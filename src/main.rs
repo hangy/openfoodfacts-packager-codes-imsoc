@@ -87,7 +87,7 @@ async fn fetch_establishments_for_country_and_section(
     section: String,
 ) -> Result<Vec<Establishment>, Box<dyn std::error::Error>> {
     let mut offset = 0;
-    let page_size = 1;
+    let page_size = 1000;
     let mut establishments = Vec::<Establishment>::default();
     loop {
         let mut establishments_page = fetch_establishments_for_country_and_section_page(
@@ -102,7 +102,6 @@ async fn fetch_establishments_for_country_and_section(
         }
         establishments.append(&mut establishments_page);
         offset += page_size;
-        break;
     }
     return Ok(establishments);
 }
@@ -239,7 +238,7 @@ async fn fetch_valid_categories_by_countries(
 async fn fetch_categories_by_countries() -> Result<Vec<CountryCategory>, Box<dyn std::error::Error>>
 {
     let mut offset = 0;
-    let page_size = 5;
+    let page_size = 1000;
     let mut country_categories = Vec::<CountryCategory>::default();
 
     loop {
@@ -250,7 +249,6 @@ async fn fetch_categories_by_countries() -> Result<Vec<CountryCategory>, Box<dyn
         }
         country_categories.append(&mut categories_by_countries);
         offset += page_size;
-        break;
     }
 
     return Ok(country_categories);
